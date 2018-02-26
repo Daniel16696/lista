@@ -16,7 +16,37 @@
     }
   },
   "validations": [],
-  "relations": {},
-  "acls": [],
+  "relations": {
+    "listaFamiliars": {
+      "type": "hasMany",
+      "model": "ListaFamiliar",
+      "foreignKey": "owner"
+    },
+    "listaFamiliar": {
+      "type": "belongsTo",
+      "model": "ListaFamiliar",
+      "foreignKey": ""
+    },
+    "Solicituds": {
+      "type": "hasAndBelongsToMany",
+      "model": "ListaFamiliar",
+      "foreignKey": ""
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
+    }
+  ],
   "methods": {}
 }
