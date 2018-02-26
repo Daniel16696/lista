@@ -21,12 +21,12 @@
     "usuarios": {
       "type": "hasMany",
       "model": "Usuario",
-      "foreignKey": ""
+      "foreignKey": "listaFamiliarId"
     },
     "productos": {
       "type": "hasMany",
       "model": "Producto",
-      "foreignKey": ""
+      "foreignKey": "listaFamiliarId"
     },
     "Solicitud": {
       "type": "hasAndBelongsToMany",
@@ -34,6 +34,62 @@
       "foreignKey": ""
     }
   },
-  "acls": [],
-  "methods": {}
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "crearSolicitudes"
+    }
+  ],
+  "methods": {
+    "prototype.crearSolicitudes": {
+      "accepts": [
+        {
+          "arg": "context",
+          "type": "object",
+          "required": true,
+          "description": "Recibe el contexto",
+          "http": {
+            "source": "context"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "salidaArray",
+          "type": "array",
+          "root": true,
+          "description": "Muestra la solicitud"
+        }
+      ],
+      "description": "Crea una solicitud para participar en la lista deseada",
+      "http": [
+        {
+          "path": "/solicitar",
+          "verb": "post"
+        }
+      ]
+    }
+  }
 }

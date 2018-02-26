@@ -25,7 +25,7 @@
     "listaFamiliar": {
       "type": "belongsTo",
       "model": "ListaFamiliar",
-      "foreignKey": ""
+      "foreignKey": "listaFamiliarId"
     },
     "Solicituds": {
       "type": "hasAndBelongsToMany",
@@ -46,12 +46,6 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
-    },
-    {
-      "accessType": "READ",
-      "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW"
     }
   ],
   "methods": {}

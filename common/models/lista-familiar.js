@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = function (Listafamiliar) {
+module.exports = function (ListaFamiliar) {
     //Haz que el id del usuario que ejecuta un POST /ListasFamiliares se le asocie como 'owner'.
-    Listafamiliar.beforeRemote('create', function (context, listafamiliar, next) {
+    ListaFamiliar.beforeRemote('create', function (context, listafamiliar, next) {
         //console.log(context); --> Contiene todo el objeto entero
         // console.log(context.args.data.owner); --> Recoge el campo owner del POST /ListaFamiliars
         // console.log(context.req.accessToken.userId); --> Recoge el id del usuario que está Autenticado
@@ -13,7 +13,7 @@ module.exports = function (Listafamiliar) {
 
     //Una vez que se ha creado una lista familiar, busca su id y asócialo al usuario autenticado,
     //guardando, posteriormente, los nuevos datos del usuario.
-    Listafamiliar.afterRemote('create', function (context, listafamiliar, next) {
+    ListaFamiliar.afterRemote('create', function (context, listafamiliar, next) {
         //console.log(context);  --> Contiene todo el objeto entero
         //console.log(context.args.data.owner); --> Recoge el campo owner del POST /ListaFamiliars
         //console.log(context.req.accessToken.userId); --> Recoge el id del usuario que está Autenticado
@@ -33,9 +33,24 @@ module.exports = function (Listafamiliar) {
                 next();
             });
         });
-
-
-
     });
+
+    ListaFamiliar.prototype.crearSolicitudes = function (context, callback) {
+        var salidaArray;
+        var idUser = context.req.accessToken.userId;
+        var idLista = this.id;
+        //console.log(idUser);
+        //console.log(idLista);
+        //console.log(this.Solicitud);
+
+        this.Solicitud.add(idUser,function (err) {
+            if (err) callback(err);
+            salidaArray = {
+                listaFamiliarId: idLista,
+                usuarioId:idUser
+            }
+            callback(null, salidaArray);
+        });
+    };
 
 };
